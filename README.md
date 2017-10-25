@@ -1,0 +1,2 @@
+# dictsave
+Chrome extension
