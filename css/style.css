@@ -1,5 +1,5 @@
 body {
-  min-width: 400px;
+  width: 400px;
   overflow-x: hidden;
   height: 100%;
   padding: 0;
@@ -19,13 +19,122 @@ a{
 
 img {
   vertical-align: middle;
-	height: 20px;
 	cursor: pointer;
 }
 
+
+/*Homepage*/
+.home-page{
+  background-color: #1dbca1;
+  color: black;
+  display: block;
+}
+
+.home-page .logo{
+  text-align: center;
+  padding-top: 25px;
+  margin: auto;
+  width: 185px;
+}
+
+.home-page .logo img{
+  width: 100%;
+  margin: auto;
+}
+
+.brand{
+  width: 130px;
+  margin: auto;
+  margin-left: 95px;
+  padding: 30px;
+  padding-bottom: 10px;
+}
+
+.brand img{
+  width: 100%;
+  height: auto;
+}
+
+.description{
+  width: 350px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+  padding: 15px;
+  margin: auto;
+}
+
+.search{
+  position: relative;
+  margin: 20px auto;
+  width: 80%;
+}
+
+.search input{
+  border: none;
+  width: 90%;
+  margin: auto;
+  border-radius: 5px;
+  font-family: 'Raleway', sans-serif;
+  padding: 15px;
+  font-size: 14px;
+}
+
+.search button{
+  position: absolute;
+  top: 0;
+  left: 84%;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: #0F6177;
+  width: 50px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.search button:hover{
+  background-color: #0B8389;
+}
+
+.search button i{
+  font-size: 15px;
+}
+
+.row-bottom{
+  width: 370px;
+  padding: 15px;
+  overflow: auto;
+}
+
+.row-bottom .el{
+  width: 25%;
+  text-align: center;
+  float: left;
+}
+
+.row-bottom .el img{
+  width: 40px;
+  margin: auto;
+  height: auto;
+}
+
+.el h3{
+  margin: 5px 0;
+}
+
+
+/*App Page*/
+.app-page{
+  display: none;
+}
+
+
 .header-wrapper{
 	background: #3cb878;
-	padding: 15px 0;
+	padding: 10px 0;
 	color: white;
 	top: 0;
 	width: 100%;
@@ -35,10 +144,19 @@ img {
   text-align: center;
 }
 
+.logo-white{
+  max-width: 160px;
+  margin: auto;
+}
+
+.logo-white img{
+  width: 100%;
+}
+
 .term-wrapper{
 	background: #82ca9c;
-	padding: 25px;
-	top: 50px;
+  padding: 15px 25px;
+  top: 60px;
 	z-index: 980;
 	width: 350px;
   position: fixed;
@@ -49,16 +167,16 @@ img {
 
 .meaning-wrapper{
 	margin-top: 130px;
-	padding: 20px;
+	padding: 0 20px;
 	position: relative;
 }
 
 .meaning ol{
-	padding-left: 0;
+	padding: 10px;
 }
 
 .meaning ol li{
-	padding: 10px;
+	padding: 5px;
 	font-size: 14px;
 	/*font-family: 'Raleway', sans-serif;*/
 	border-bottom: 1px solid rgba(0,0,0,0.1);	
@@ -79,6 +197,10 @@ img {
 	width: 100%;
 }
 
+.helper-wrapper{
+  margin-bottom: 60px;
+}
+
 .not-found{
 	padding: 10px;
 	display: none;
@@ -87,6 +209,16 @@ img {
 
 #success, #alert{
 	display: none;
+}
+
+.full-list{
+  background: cadetblue;
+  padding: 10px;
+  width: 330px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  display: block;
 }
 
 .not-found p {
@@ -98,6 +230,23 @@ img {
 	width:  100px;
 }
 
+.list-wrapper{
+	padding: 10px;
+}
+
+.list-wrapper h2{
+  text-align: center;
+}
+
+.list-wrapper #mylist li{
+  padding: 10px;
+	border-bottom: 1px solid rgba(0,0,0,0.1);	
+}
+
+#mylist{
+	display: none;
+}
+
 .btn{
 	background: #1BBC9B;
 	color: white;
@@ -106,7 +255,15 @@ img {
 	padding: 20px 0;
 	width: 33.333%;
 	z-index: 980;
+	box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 	cursor: pointer;
+	border-right: 1px solid #fff;
+}
+
+.hide{
+	display: none;
 }
 
 .btn-float{
@@ -126,14 +283,11 @@ img {
 }
 
 .btn-blue{
+  border: 1px solid skyblue; 
 	background-color: #1BA39C;
 }
 
 /*Success Tick*/
-#success{
-
-}
-
 .sa {
   width: 140px;
   /*height: 140px;*/
@@ -265,6 +419,10 @@ img {
 }
 
 /*Alert Tick*/
+.f-modal-alert{
+  display: none;
+}
+
 .f-modal-alert .f-modal-icon {
   border-radius: 50%;
   border: 4px solid gray;
@@ -757,6 +915,7 @@ img {
   width: 40px;
   margin-top: 200px;
   height: 40px;
+  display: none;
   position: relative;
   -webkit-transform: rotateZ(45deg);
           transform: rotateZ(45deg);
@@ -839,4 +998,42 @@ img {
             transform: perspective(140px) rotateY(180deg);
     opacity: 0; 
   }
+}
+
+.fa-times{
+  cursor: pointer;
+  padding: 5px;
+  font-size: 18px !important;
+  right: 20px;
+  top: 10px;
+  position: absolute;
+  border-radius: 100%;
+  height: 20px;
+  width: 20px;
+  border: 2px solid black;
+  float: right;
+}
+
+.modal-content{
+  padding: 15px;
+  text-align: justify;
+}
+
+
+.alert-box{
+  background-color: red;
+  color: #fff;
+  padding: 5px;
+  width: 80%;
+  text-align: center;
+  margin: auto;
+}
+
+.floating-card ol{
+  padding-left: 15px;
+}
+
+.floating-card ol li{
+  padding: 10px 0;
+ 
 }

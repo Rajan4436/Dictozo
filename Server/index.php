@@ -1,9 +1,11 @@
 <?php
 //'http://testing-ground.scraping.pro/textlist';
+
 $value = $_POST['link'];
 $text  = strtolower($value);
 //$path = 'http://www.yourdictionary.com/'.$text;
 $path  = 'https://en.wiktionary.org/wiki/' . $text;
+
 $curl = curl_init();
 //curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt_array($curl, array(
@@ -11,6 +13,7 @@ curl_setopt_array($curl, array(
     CURLOPT_URL => $path
 ));
 $page = curl_exec($curl);
+
 if (curl_errno($curl)) // check for execution errors
     {
     echo 'Scraper error: ' . curl_error($curl);

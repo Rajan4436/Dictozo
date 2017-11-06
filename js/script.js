@@ -1,6 +1,6 @@
 // "use strict";
 
-  // Google Analytics Trcking
+//##### Google Analytics Trcking ######### 
   var _AnalyticsCode = 'UA-108259889-1';
 
   var _gaq = _gaq || [];
@@ -16,22 +16,28 @@
     s.parentNode.insertBefore(ga, s);
   })();
 
-  window.addEventListener("load", function() {
+  function trackButtonClick(e) {
+    _gaq.push(['_trackEvent', e[0].id, 'clicked']);
+  }
+//##### Google Analytics Trcking End #########
 
-  //UpdateCheck
+
+//######### UpdateCheck #########
   chrome.runtime.onUpdateAvailable.addListener(function(){
     var c = chrome.app.getDetails();
     console.log(c.version);
     chrome.runtime.reload();
   });
+//######### UpdateCheck End #########
 
+
+//########### Getting user Email ######
+ 
   // var logged_in_user;
-
   // chrome.extension.sendMessage({}, function(response) {
   //   logged_in_user = response.email
   // });
 
-  // Getting user Email
   chrome.identity.getProfileUserInfo(function(info) { 
     var email;
     email = info.email; 
@@ -48,116 +54,98 @@
         },
         error: function(err) {
           console.log(err);
-          /* Act on the event */
         }
       });
     }
   });
+//########### Getting user Email End ######
 
-  function trackButtonClick(e) {
-    _gaq.push(['_trackEvent', e[0].id, 'clicked']);
+//########### Function Declarations ######
+
+  function toSentenceCase(term) {
+    return term.replace(/(^[a-z])|(\s+[a-z])/g, txt => txt.toUpperCase());
   }
-
-  //Reminder
-  var i = 0;
-  if(localStorage.getItem("alreadydone") == "1")
-  {
-    // localStorage.removeItem("alreadydone");
-  }
-  else
-  {
-    localStorage.setItem("alreadydone","0");
-    if(localStorage.getItem("count") == "15"){
-      $(".reminder").show();
-      localStorage.setItem("count",i);    
-    }
-    else{
-      i = localStorage.getItem("count")?localStorage.getItem("count"):0;
-      i = parseInt(i);
-      i=i+1;
-      console.log(i);    
-      localStorage.setItem("count",i);    
-    }
-
-    $(".ratepage").click(function(e){
-      e.preventDefault();
-      chrome.tabs.create({
-          'url': "https://chrome.google.com/webstore/detail/word-o-save/amjldpjobjpiflbdejcidlkmhllhnnnm/reviews"
-        }, function(tab) {
-          // Tab opened.
-        });
-
-    });
-
-    $(".enclose h1, .reminder").click(function(n){
-      n.stopPropagation();
-      $(".reminder").hide();
-    });
-  }    
- 
-  $(".alreadyrated").click(function(e){
-    e.preventDefault();
-    localStorage.setItem("alreadydone","1");
-  });
 
   function ajaxcall(word) {
+    $('.home-page').hide();
+    $('.app-page').show();
+
     $.ajax({
-        type: "POST",
-        url: "http://sarcnitj.com/Server%20Side/index.php",
-        // url: "http://www.catchwebsite.byethost6.com/wordosave.php", 	
-        data: {
-          link: word
-        }
-      })
-      .done(function(msg) {
+      type: "POST",
+      url: "http://localhost/wordosave/server/local.php",
+      // url: "http://sarcnitj.com/Server%20Side/index.php",
+      // url: "http://www.catchwebsite.byethost6.com/wordosave.php",  
+      data: {
+        link: word
+        // type: "f" //f => foreground
+      }
+    })
+    .done(function(response) {
+      $('#load').css("display", "none");
+      console.log(response);
+ 
+      if (response == 0) {
+        $('.not-found').show().addClass('animated bounceIn');
+      }else{
+        var msg = JSON.parse(response);
         word = word.toUpperCase();
-        var def = "<strong>" + "Meaning of " + word + " :<br>" + "</strong>" + msg;
-        $('#load').css("display", "none");
+        // $("#meaning").html(null);
+        var def = "<strong>" + "Meaning of " + word + " :<br>" + "</strong>";
+        var definitions = "";
+        for (var i = 0; i < msg.length ;i++) {
+            definitions += '<li>&nbsp;<i>'+msg[i]["wordtype"]+'</i>&nbsp;&nbsp;'+msg[i]["definition"]+'<br></li>';
+        }
         $('#meaning').css("display", "block");
-        $('#hiddenDef').html(msg);
+        $('#hiddenDef').html(definitions);
         $('#hiddenWord').html(word);
+        console.log(definitions)
 
         //Display result in Blue box
-        $("#meaning").html(def).addClass('animated bounceIn');
+        $("#meaning ol").html(definitions);
+        $('#meaning').after("<div id='add' class='add-to-list'><button class='btn btn-blue' style='padding: 10px 0;'>Add to this List</button></div>").addClass('animated bounceIn');
         var height = $("#meaning").innerHeight();
-        var bodyHeight = $("body").innerHeight();
-        $("body").css("height",bodyHeight + height - 40);
-      });
+        $("body").css("height",height + 150);
+      }
+    });
   }
-  //Jquery ADD Click handler to add WORD-MEANING set in storage
+
   function save(key, value) {
+    // Jquery ADD Click handler to add WORD-MEANING set in storage
     chrome.storage.sync.getBytesInUse(null, function(current_value){
       var max_value = chrome.storage.sync.QUOTA_BYTES;
       if(current_value > max_value){
-        $('#alert').html("Storage Exceeds! Please delete some items. ");
+        $(".meaning-wrapper").html(null);
+        $("#add").remove();
+        $('#issue').show().find('h3').text("Storage Exceeds! Please delete some items. ");
         return;
       }
       else{
-          var obj = {};
-          var y;
-          obj[key] =  value;
-          value = value.toString();
-          chrome.storage.sync.get(null, function(all) {
-            for(y in all){
-              if(key == y)
-              { 
-                alert(key + " is already in the list.");
-                return;
-              }
+        var obj = {};
+        var y;
+        obj[key] =  value;
+        value = value.toString();
+        chrome.storage.sync.get(null, function(all) {
+          for(y in all){
+            if(key == y)
+            { 
+              alert(key + " is already in the list.");
+              return;
             }
-            chrome.storage.sync.set(obj, function(){
-                $('#alert').html("Word saved successfully");
-            });
+          }
+          chrome.storage.sync.set(obj, function(){
+            $(".meaning-wrapper").html(null);
+            $("#add").remove();
+            $("body").css("height",$('#success').height() + 150);
+            $('#success').show().addClass('animated bounceIn');
           });
+        });
       }
     });  
   } 
 
-
   function site(str) {
-
     if (!str) {
-      $('#alert').html("No word Selected, select a word first");
+      $('#alert').show().html("No word Selected, select a word first");
     } else {
       chrome.tabs.create({
         'url': "https://en.wiktionary.org/wiki/" + str.toLowerCase()
@@ -166,6 +154,60 @@
       });
     }
   }
+
+  function searchVocab(word) {
+    $('#meaning').css("display", "none");
+    $('#term').text(toSentenceCase(word));
+    $('#load').css("display", "block");
+    ajaxcall(word);
+  };
+//########### Function Declarations End ######
+
+
+window.addEventListener("load", function() {
+
+  /////// Reminder //////////  
+    var i = 0;
+    if(localStorage.getItem("alreadydone") == "1")
+    {
+      // localStorage.removeItem("alreadydone");
+    }
+    else
+    {
+      localStorage.setItem("alreadydone","0");
+      if(localStorage.getItem("count") == "15"){
+        $(".reminder").show();
+        localStorage.setItem("count",i);    
+      }
+      else{
+        i = localStorage.getItem("count")?localStorage.getItem("count"):0;
+        i = parseInt(i);
+        i=i+1;
+        console.log(i);    
+        localStorage.setItem("count",i);    
+      }
+
+      $(".ratepage").click(function(e){
+        e.preventDefault();
+        chrome.tabs.create({
+            'url': "https://chrome.google.com/webstore/detail/word-o-save/amjldpjobjpiflbdejcidlkmhllhnnnm/reviews"
+          }, function(tab) {
+            // Tab opened.
+          });
+
+      });
+
+      $(".enclose h1, .reminder").click(function(n){
+        n.stopPropagation();
+        $(".reminder").hide();
+      });
+    }    
+
+    $(".alreadyrated").click(function(e){
+      e.preventDefault();
+      localStorage.setItem("alreadydone","1");
+    });
+  /////// Reminder End //////////
 
   $('#clear').click(function() {
     var r = confirm("Are you sure, whole list will be deleted permanently");
@@ -178,11 +220,6 @@
     // localStorage.setItem("count","0");		
   });
 
-  function searchVocab(word) {
-    $('#meaning').css("display", "none");
-    $('#load').css("display", "block");
-    ajaxcall(word);
-  };
 
   chrome.tabs.query({
     'active': true,
@@ -193,12 +230,12 @@
     if (link.includes('www.google')) {
 
       var bodyHeight = $("body").innerHeight();
-      $("body").css("height",bodyHeight + 128);
+      // $("body").css("height",bodyHeight + 128);
       // $('body').css("min-height","300px");
       $('#meaning').css("display", "none");
       $('#load').css("display", "block");
 
-      //########### The set of links tested  ###################//
+      //####### The set of tested  links ##########//
 
       // 1. https://www.google.co.in/search?q=grab&oq=grab&aqs=chrome..69i57j0l5.1107j0j9&sourceid=chrome&ie=UTF-8#q=grab+meaning
       // 2. https://www.google.co.in/search?q=grab&oq=grab&aqs=chrome.0.69i59j69i60j69i59j69i65l2j0.1516j0j9&sourceid=chrome&ie=UTF-8#q=grab%20meaning%20in%20hindi
@@ -215,13 +252,12 @@
 	      if (link.includes('&q=')) {
 	        var results = link.split('&');
 	      }
-	      if (link.includes('#q=' && '&q=')) {
+	      else if (link.includes('#q=' && '&q=')) {
 	        var results = link.split('#');
 	      }
 
 	      //Decoding function for extracting the WORD
 	      var qs = (function(a) {
-
 	        if (a == "") return {};
 	        var b = {};
 	        for (var i = 0; i < a.length; ++i) {
@@ -232,7 +268,6 @@
 	            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
 	        }
 	        return b;
-
 	      })(results);
 
 	      //Further filter of extracted word If it contain '&' or '+' or " "
@@ -249,9 +284,8 @@
 	      //Final WORD stored in variable str
 	      var str = qs["q"];
 	      str = str.toLowerCase();
+        $('#term').text(toSentenceCase(str));
 
-
-	      //Making post request to PHP file to reach the site http://yourdictionary.com
 	      ajaxcall(str);
       }
 
@@ -274,12 +308,12 @@
     else {
       
       var bodyHeight = $("body").innerHeight();
-      $("body").css("height",bodyHeight + 250);
+      $("body").css("height",bodyHeight);
       $('#nongoogle-welcome-message').firstVisitPopup({
         cookieName: 'nongoogle',
         showAgainSelector: '#show-message'
       });
-      $('#meaning').html("It is not a Google Search Page, Automatic search will not work but you can see the list by clicking 'Show all' button, or can try manual search");
+      // $('#meaning').html("It is not a Google Search Page, Automatic search will not work but you can see the list by clicking 'Show all' button, or can try manual search");
       $('#p').css("display", "none");
       $("form").css("display", "block");
 
@@ -288,21 +322,18 @@
         var str = $('#link').val();
         str = str.replace(/\s+/g, '');
         if (str.search(/^[A-z]+$/) == -1) {
-          $('#alert').html("Enter Valid Text");
-          return;
+          $('#alert').show().html("Enter Valid Text");
+          return false;
         }
         $('#load').css("display", "block");
-        $('#alert').html(null);
+        $('#alert').hide();
         str = str.toLowerCase();
-
-        // $("#reg-form").submit(function() {
-          ajaxcall(str);
-          return false;
-        // });
-
+        $('#term').text(toSentenceCase(str));
+        ajaxcall(str);
+        return false;
       });
 
-       //To get selected value from the webpage
+      //To get selected value from the webpage
 		  chrome.tabs.executeScript({
 		    code: "window.getSelection().toString();"
 		  }, function(selection) {
@@ -311,16 +342,15 @@
           $('#load').css("display", "block");
 		      var word = selection[0];
 		      word = word.trim();
-          $('#term').text(word);
-		      ajaxcall(word);
+          $('#term').text(toSentenceCase(word));
+          ajaxcall(word);
 		    }
 		  });
     }
 
-    $('#add').click(function() {
+    $('.meaning-wrapper').on('click','#add', function(e) {
       var word = $('#hiddenWord').text();
       var msg = $('#hiddenDef').text();
-      console.log($(this));
       trackButtonClick($(this));
       save(word, msg);
     });
@@ -331,68 +361,80 @@
     });
 
     $('#show').click(function() {
-     chrome.storage.sync.get(null, function(result) {
+      $(".helper-wrapper").remove();
+      // $(".meaning-wrapper").remove();
+      chrome.storage.sync.get(null, function(result) {
         if (result == null || result == "" || !result ) {
-          $('#alert').html("No Item in the list");
+          $('#alert').show().html("No Item in the list");
           $('#mylist').toggle("linear");
         } else {
-          $('#alert').html(null);
+          $('#alert').hide();
           $('#mylist').html(null);
-          // console.log($(result));
           var set = [];
           var x;
           for(x in result){
             set.push(x + " :-  " + result[x]);
           }
+          console.log(set);
           var cList = $('#mylist');
-          $('#mylist').css({"padding":"15px", "padding-bottom":"200px"});
+          cList.append('<h2>My saved list</h2>');
+          cList.css({"padding":"15px 15px 50px"});
 
           $.each(set, function(i) {
-            var li = $('<li/>')
-              .addClass('ui-menu-item')
-              .text(set[i])
-              .appendTo(cList);
-
-            var check = $('<input/>')
-              .addClass('chkbox')
-              .attr('type', 'checkbox')
-              .appendTo(li);
+            if (i==10) {
+              cList.append('<a class="full-list" href="#">Check Full List</a>');
+              return false;
+            }else{
+              var li = $('<li/>')
+                .addClass('ui-menu-item')
+                .text(set[i])
+                .appendTo(cList);
+              // var check = $('<input/>')
+              //   .addClass('chkbox')
+              //   .attr('type', 'checkbox')
+              //   .appendTo(li);
+            }
           });
 
           $('#mylist').toggle("linear");
 
-          $('#del').click(function() {
-            var key;
-            var arr= [];
-            var c = $('#mylist li').has('input:checked').remove();
-            for (var i = 0; i < c.length; i++) {
-              var d = c[i].innerText;
-              key  = d.substr(0,d.indexOf(" :"));
-              arr.push(key);
-            }
-            console.log(arr);
-            chrome.storage.sync.remove(arr);            
-          });
+          // $('#del').click(function() {
+          //   var key;
+          //   var arr= [];
+          //   var c = $('#mylist li').has('input:checked').remove();
+          //   for (var i = 0; i < c.length; i++) {
+          //     var d = c[i].innerText;
+          //     key  = d.substr(0,d.indexOf(" :"));
+          //     arr.push(key);
+          //   }
+          //   console.log(arr);
+          //   chrome.storage.sync.remove(arr);            
+          // });
 
         } //else
       }); //get
     }); //show
   }); //Tabs Query
 
-  //About
-  $('#about').click(function() {
-    $('#aboutslide').slideToggle();
-    $('#aboutslide').css("display", "block");
-  });
+  //######## About Page #########
+    $("#about").animatedModal({
+      animatedIn: "bounceIn",
+      animatedOut: "bounceOut",
+      color: "#FFF"
+    });
+  //######## About Page End #########
 
-  //Help 
-  $('#help').click(function() {
-    $('#helpslide').slideToggle();
-    $('#helpslide').css("display", "block");
-  });
+  //######## Help Page #########
+    $('#help').click(function() {
+      $('#helpslide').slideToggle();
+      $('#helpslide').css("display", "block");
+    });
+  //######## Help Page End #########
 
-  $("#meaning").click(function(e) {
-    $('#alert').html(null);
+  // Search within the result produced 
+  $("#meaning").on("dblclick", function(e) {
+    // $('#alert').hide();
+    $('#add').remove();
     s = window.getSelection();
     s.modify('extend','backward','word');        
     var b = s.toString();
@@ -406,7 +448,6 @@
       word =  word.replace(/[^A-z]/,'');
     }
     word =  word.replace(/\r?\n|\r/,"");
-    // alert(word);
     searchVocab(word);
   });
 
