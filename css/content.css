@@ -1,0 +1,37 @@
+.dict-highlight{
+	border-bottom: 2px solid #0F6177;
+	/*background: red;*/
+}
+
+.annotate-img{
+	cursor: pointer !important;;
+	position: relative !important;;
+  top: 10px !important;;
+	width: 12px !important;
+}
+
+.dict-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* dict-Tooltip text */
+.dict-tooltip .dict-tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #008b8b;;
+    color: #fff;
+    text-align: center;
+    left: 15px;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the dict-tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the dict-tooltip text when you mouse over the dict-tooltip container */
+.dict-tooltip:hover .dict-tooltiptext {
+    visibility: visible;
+}

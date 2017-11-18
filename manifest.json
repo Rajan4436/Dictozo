@@ -1,0 +1,59 @@
+{
+  "manifest_version": 2,
+
+  "name": "Dictozo",
+  
+  "description": "This app lets you save meaning of all the words that you search frequently on google while reading an article for further reference",
+  
+  "version": "2.0",
+
+  "permissions": [
+    "storage",
+    "notifications",
+    "contextMenus",
+    "tabs",
+    "identity", 
+    "identity.email",
+    "http://*/",
+    "https://*/"
+  ],
+  
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  
+  "background": { 
+    "scripts": [
+      "js/jquery-3.2.1.min.js", 
+      "js/background.js"
+    ],
+    "persistent": true
+  },
+
+  "icons": { 
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png" 
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": ["css/content.css"],
+      "js": [
+        "js/jquery-3.2.1.min.js",
+        "js/scan.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": {                   
+      "16": "img/icon16.png",
+      "48": "img/icon48.png",
+      "128": "img/icon128.png"        
+    },
+    "default_popup": "index.html"
+  }
+}
