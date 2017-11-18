@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DICTOZO</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/popup.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<noscript>
+	    This app requires JavaScript. Please enable it in your settings. 
+	    Go to browser settings > Then switch to Advanced settings >  Look for Content Settings >  Under that look for Javascript and enable that
+	</noscript>
+</head>
+<body>
+
+		<div class="home-page">
+			<div class="logo">
+				<img src="img/logo-black.png">
+			</div>
+			<div class="brand">
+				<img src="img/logo-brand.png">
+			</div>
+
+			<div class="description">
+				<b>DICTOZO</b> is a multipurpose dictionary application which lets you save tough lexicals for future references and vocabulary enhancement. 
+			</div>
+
+  		<div id="alert" class="alert-box"></div>
+
+			<form class="search" id="reg-form">
+				<input type="text" name="link" id="link" placeholder="Search Term" required>
+				<button type="submit" id="btn">
+					<i class="fa fa-paper-plane" aria-hidden="true"></i>
+				</button>
+			</form>			
+
+			<div class="row-bottom">
+				<div class="el">
+					<img src="img/gear.png">
+					<h3>Settings</h3>
+				</div>
+				<div class="el">
+					<img src="img/dashboard.png">
+					<h3>Dashboard</h3>
+				</div>
+				<div class="el">
+					<img src="img/how-to-use.png">
+					<h3>How to use</h3>
+				</div>
+				<div class="el">
+					<a href="#animatedModal" id="about">
+						<img src="img/about-app.png">
+					</a>
+					<h3>About</h3>
+					<div id="animatedModal">
+						<div class="close-animatedModal"> 
+            	<i class="fa fa-times" aria-hidden="true"></i>
+		        </div>
+		            
+						<div class="modal-content">
+							<h1>Licence</h1>
+							<p>Copyright (c) 2016 word-o-save Chrome Extension</p>
+							<P>
+							THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+							IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+							FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+							AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+							LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+							OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+							SOFTWARE.</P>
+							<p>
+							THE SOFTWARE IS TOTALLY FREE OF COST AND WILL BE ALWAYS
+							</p>
+
+							<h4>Please provide your valuable feedbacks and suggestions in comments to make this more better.</h4>
+							<img class="ratepage" src="rate.jpg"/>
+							<a href="#" class="ratepage">Take me to the rating page.</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="app-page">
+			
+			<header class="header-wrapper">
+				<div class="logo-white">
+					<img src="img/logo.png">
+				</div>
+			</header>
+
+			<div class="term-wrapper">
+				<div class="term" id="term"></div>
+			</div>
+			<div id="load" class="sk-folding-cube">
+			  <div class="sk-cube1 sk-cube"></div>
+			  <div class="sk-cube2 sk-cube"></div>
+			  <div class="sk-cube4 sk-cube"></div>
+			  <div class="sk-cube3 sk-cube"></div>
+			</div>
+			
+			<div class="meaning-wrapper">
+				<div class="meaning" id="meaning">
+					<ol>
+					</ol>
+				</div>
+				<div id="hiddenWord" class="hide"></div>
+		  	<div id="hiddenDef" class="hide"></div>
+			</div>
+
+			<div class="list-wrapper">
+				<ol id="mylist">
+		  		
+		  	</ol>
+			</div>
+
+			<div class="helper-wrapper">
+				<div class="not-found">
+					<img src="img/dog.png">
+					<h2>Not Found !!!</h2>
+					<p>Possible Cause - Spelling Mistake or you have searched for plural, past, past participle of verb etc.</p>
+				</div>
+
+				<div id="success">
+					<div class="sa">
+						<div class="sa-success">
+							<div class="sa-success-tip"></div>
+							<div class="sa-success-long"></div>
+							<div class="sa-success-placeholder"></div>
+							<div class="sa-success-fix"></div>
+						</div>
+					</div>
+					<h3>Sucessfully added to your list</h3>				
+				</div>
+
+				<div id="issue" class="f-modal-alert">
+					<div class="f-modal-icon f-modal-error animate">
+						<span class="f-modal-x-mark">
+							<span class="f-modal-line f-modal-left animateXLeft"></span>
+							<span class="f-modal-line f-modal-right animateXRight"></span>
+						</span>
+						<div class="f-modal-placeholder"></div>
+						<div class="f-modal-fix"></div>
+					</div>
+					<h3>Something Happened</h3>				
+				</div>
+			</div>
+
+
+			<div class="actions-wrapper">
+				<div class="row1">
+				</div>
+				<div class="row2">
+					<button class="btn btn-float">Settings</button>
+					<button id="show" class="btn btn-float">Show List</button>
+					<button class="btn btn-float">Dashboard</button>
+				</div>				
+			</div>
+		</div>
+	  
+	  <script src="js/jquery-3.2.1.min.js"></script>
+	  <script src="js/jquery.firstVisitPopup.js"></script>
+    <script src="js/animatedModal.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
