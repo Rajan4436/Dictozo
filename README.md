@@ -2,6 +2,7 @@
 
 # THE PROJECT HAS BEEN MOVED TO PRIVATE. You can try the app at https://shorturl.at/knrF5
 
+
 This is the first version of my open source app which I have started in 2016, it is in private repo now. You can have a glance of this app at http://dictozo.com/.
 
 Have you ever got frustrated while searching meaning of difficult English words online while reading your favorite article? Non-english people will better understand this issue. Yeah its bit infuriating when you came across same word whose meaning you've searched last week but now, it doesn't in your mind. U have to search same word again and cycle goes on.
