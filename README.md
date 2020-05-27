@@ -9,3 +9,4 @@ Have you ever got frustrated while searching meaning of difficult English words 
 Why not store that words somewhere, so that you have a list of most re-occurring/frequent used words and you can easily recall or memorize them all, once in a week.
 Yeah now you can, dictozo lets you store all those words with their meaning in your browser whose meaning you search most often online. In this way you have to memorize only those words which are frequently using now days. It saves your time that you devote looking for same word again and again, thereby enhances your reading skills. It is must for English learners and those who want to enhance their vocabulary.
 
+
