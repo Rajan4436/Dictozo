@@ -1,6 +1,6 @@
 # Dictozo
 
-# THE PROJECT HAS BEEN MOVED TO PRIVATE. You can try the app at https://shorturl.at/knrF5
+# THE PROJECT HAS BEEN MOVED TO PRIVATE. You can view the app at dictozo.com
 
 This is the first version of my open source app which I have started in 2016, it is in private repo now. You can have a glance of this app at http://dictozo.com/.
  
